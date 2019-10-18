@@ -4,19 +4,33 @@
 Bezier::Bezier(const Vector2& p0, const Vector2& p1, const Vector2& p2, const Vector2& p3)
 	: p0(p0), p1(p1), p2(p2), p3(p3)
 {
+	for (size_t i = 0; i < BezierPrecision + 1; i++)
+	{
+		BSegments[i] = BezierCalulation(float(i) / 20.0f);
+		
+	}
+	
 }
+
 
 //draw a track using a cubic Bezier curve
 
 void Bezier::draw(SDL_Renderer *renderer) const
 {
-	Vector2 newParamB; //the new calculated parm 
+	//draw the track. 
+	for (size_t i = 0; i < BezierPrecision; i++)
+	{
+		SDL_RenderDrawLine(renderer, BSegments[i].x, BSegments[i].y, BSegments[i+1].x, BSegments[i+1].y);
+
+	}
+	
+}
+
+Vector2 Bezier::BezierCalulation(float t)const
+{
+	Vector2 newParamB = Vector2 (); //the new calculated parm 
 	Vector2 oldParamB = p0; //setted to a new position at the end of every iteration
 
-	
-	for (size_t i = 0; i < 20; i++)
-	{
-		float t = (i + 1.0f) / 20.0f; //t is the floating parameter that affects the curve
 		float tt = (1.0f - t); //tt is the reduction operator
 		float pt = t * t; // pt is t by the power of 2 
 		float ppt = pt * t; //ppt is t by the power of 3 
@@ -28,14 +42,14 @@ void Bezier::draw(SDL_Renderer *renderer) const
 		//Cubic Bezier formula 
 		newParamB.x = pptt * p0.x + 3 * ptt * t * p1.x + 3 * tt * pt * p2.x + ppt * p3.x;
 		newParamB.y = pptt * p0.y + 3 * ptt * t * p1.y + 3 * tt * pt * p2.y + ppt * p3.y;
+
 		
-		//draw the track. 
-		SDL_RenderDrawLine(renderer, newParamB.x, newParamB.y, oldParamB.x, oldParamB.y);
 
 		//set the old param with the new param so new it
 			//begins with the new iteration at the spot were the last one ended
-		oldParamB = newParamB;
-	}
 
-	
+
+		oldParamB = newParamB;
+
+	return newParamB;
 }
