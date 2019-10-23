@@ -9,13 +9,16 @@ public:
 
 	void draw(SDL_Renderer *renderer) const;
 	Vector2 BezierCalulation(float t) const;
+	Vector2 BezierTangentCalculation(float t) const;
 
-	int bezRep = 0;
-	float BezConstParam = float(bezRep) / 20.0f;
 	const int static BezierPrecision = 20;
+	
 	Vector2 newParamB; //the new calculated parm 
-	Vector2 BSegments[BezierPrecision + 1];
 	Vector2 oldParamB = p0; //setted to a new position at the end of every iteration
+	Vector2 BSegments[BezierPrecision + 1];
+	Vector2 BTangent[BezierPrecision + 1];
+	float convertedTangent;
+	
 
 private:
 	Vector2 p0, p1, p2, p3;

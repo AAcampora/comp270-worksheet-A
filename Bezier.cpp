@@ -6,7 +6,10 @@ Bezier::Bezier(const Vector2& p0, const Vector2& p1, const Vector2& p2, const Ve
 {
 	for (size_t i = 0; i < BezierPrecision + 1; i++)
 	{
-		BSegments[i] = BezierCalulation(float(i) / 20.0f);
+		float curveParameter = float(i) / 20.0f;
+		BSegments[i] = BezierCalulation(curveParameter);
+		
+		BTangent[i] = BezierTangentCalculation(curveParameter);
 		
 	}
 	
@@ -45,11 +48,26 @@ Vector2 Bezier::BezierCalulation(float t)const
 
 		
 
-		//set the old param with the new param so new it
-			//begins with the new iteration at the spot were the last one ended
+	//set the old param with the new param so new it
+	//begins with the new iteration at the spot were the last one ended
+	oldParamB = newParamB;
 
+	return newParamB;
+}
 
-		oldParamB = newParamB;
+//calculate the tanget of the bezier curve 
+Vector2 Bezier::BezierTangentCalculation(float t) const
+{
+	Vector2 newParamB = Vector2(); //the new calculated parmeter
+	Vector2 oldParamB = p0; //setted to a new position at the end of every iteration
 
+		//calcolate tangent 
+		newParamB.x = 3 * pow((1 - t), 2) * (p1.x - p0.x) + 6 * (1 - t) * t * (p2.x - p1.x) + 3 * pow(t, 2) * (p3.x, p2.x);
+		newParamB.x = 3 * pow((1 - t), 2) * (p1.y - p0.y) + 6 * (1 - t) * t * (p2.y - p1.y) + 3 * pow(t, 2) * (p3.y, p2.y);
+
+	//set as old param for the next iteration
+	oldParamB = newParamB;
+
+	
 	return newParamB;
 }
