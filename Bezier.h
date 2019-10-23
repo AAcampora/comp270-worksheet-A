@@ -10,6 +10,8 @@ public:
 	void draw(SDL_Renderer *renderer) const;
 	Vector2 BezierCalulation(float t) const;
 
+	int bezRep = 0;
+	float BezConstParam = float(bezRep) / 20.0f;
 	const int static BezierPrecision = 20;
 	Vector2 newParamB; //the new calculated parm 
 	Vector2 BSegments[BezierPrecision + 1];
