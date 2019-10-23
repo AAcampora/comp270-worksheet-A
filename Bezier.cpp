@@ -62,8 +62,12 @@ Vector2 Bezier::BezierTangentCalculation(float t) const
 	Vector2 oldParamB = p0; //setted to a new position at the end of every iteration
 
 		//calcolate tangent 
-		newParamB.x = 3 * pow((1 - t), 2) * (p1.x - p0.x) + 6 * (1 - t) * t * (p2.x - p1.x) + 3 * pow(t, 2) * (p3.x, p2.x);
-		newParamB.x = 3 * pow((1 - t), 2) * (p1.y - p0.y) + 6 * (1 - t) * t * (p2.y - p1.y) + 3 * pow(t, 2) * (p3.y, p2.y);
+		float tt = (1 - t);
+		float ttt = tt * tt;
+		float pt = t * t;
+
+		newParamB.x = 3 * ttt * (p1.x - p0.x) + 6 * tt * t * (p2.x - p1.x) + 3 * pt * (p3.x, p2.x);
+		newParamB.y = 3 * ttt * (p1.y - p0.y) + 6 * tt * t * (p2.y - p1.y) + 3 * pt * (p3.y, p2.y);
 
 	//set as old param for the next iteration
 	oldParamB = newParamB;
