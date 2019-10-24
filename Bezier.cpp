@@ -8,8 +8,6 @@ Bezier::Bezier(const Vector2& p0, const Vector2& p1, const Vector2& p2, const Ve
 	{
 		float curveParameter = float(i) / 20.0f;
 		BSegments[i] = BezierCalulation(curveParameter);
-		
-		
 	}
 	
 }
@@ -58,7 +56,6 @@ Vector2 Bezier::BezierCalulation(float t)const
 Vector2 Bezier::BezierTangentCalculation(float t) const
 {
 	Vector2 newParamB = Vector2(); //the new calculated parmeter
-	Vector2 oldParamB = p0; //setted to a new position at the end of every iteration
 
 		//calcolate tangent 
 		float tReduct = (1 - t);
@@ -69,7 +66,6 @@ Vector2 Bezier::BezierTangentCalculation(float t) const
 		newParamB.y = 3 * powT * (p1.y - p0.y) + 6 * tReduct * t * (p2.y - p1.y) + 3 * powT2 * (p3.y - p2.y);
 
 	//set as old param for the next iteration
-	oldParamB = newParamB;
 
 	
 	return newParamB;
